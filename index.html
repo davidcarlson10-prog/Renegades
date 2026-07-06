@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0057)file:///C:/Users/david/Downloads/renegades-tracker_5.html -->
+<!-- saved from url=(0057)file:///C:/Users/david/Downloads/renegades-tracker_6.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -289,6 +289,38 @@
   .feed li:last-child{border-bottom:none}
   .feed .dot{font-size:17px}
   .feed time{margin-left:auto;font-size:11.5px;color:#8ba0b5;font-weight:700;white-space:nowrap}
+
+  /* ---------- Training videos ---------- */
+  .chiprow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .chip{
+    background:#ECEDF0;color:var(--navy);
+    border:2px solid transparent;
+    padding:7px 14px;border-radius:999px;
+    font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;
+    cursor:pointer;
+  }
+  .chip.active{background:var(--goal-red);color:#fff}
+  .chip:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+  .vidcard{padding:0;overflow:hidden}
+  .vidcard .frame{
+    position:relative;width:100%;padding-top:56.25%; /* 16:9 */
+    background:#000;
+  }
+  .vidcard .frame iframe{
+    position:absolute;inset:0;width:100%;height:100%;border:0;
+  }
+  .vidcard .meta{padding:12px 16px 14px}
+  .vidcard .meta .vt{font-weight:800;font-size:15px}
+  .vidcard .cattag{
+    display:inline-block;margin-top:5px;
+    background:#ECEDF0;
+    padding:3px 10px;border-radius:999px;
+    font-size:11.5px;font-weight:800;
+  }
+  .vidcard .ext{
+    display:block;padding:16px;
+    font-weight:800;color:var(--goal-red);text-decoration:none;
+  }
 
   /* ---------- Admin ---------- */
   .adminlist{list-style:none}
@@ -738,6 +770,16 @@
       </div></div>
   </section>
 
+  <!-- ================= TRAINING PAGE ================= -->
+  <section id="page-training" class="hidden">
+    <div class="card">
+      <h2>Training Videos</h2>
+      <p class="muted">Watch, learn, then go log those reps! Filter by skill:</p>
+      <div class="chiprow" id="vidFilters"><button class="chip active" onclick="setVidFilter(&#39;all&#39;)">All</button><button class="chip " onclick="setVidFilter(&#39;shots&#39;)">🥅 Shooting</button><button class="chip " onclick="setVidFilter(&#39;stick&#39;)">🏒 Stickhandling</button><button class="chip " onclick="setVidFilter(&#39;passes&#39;)">🎯 Passing</button><button class="chip " onclick="setVidFilter(&#39;saves&#39;)">🧤 Goalie Saves</button><button class="chip " onclick="setVidFilter(&#39;general&#39;)">⭐ General</button></div>
+    </div>
+    <div id="videoList"><div class="card"><p class="muted">No training videos yet — coaches can add YouTube links in the Coach tab.</p></div></div>
+  </section>
+
   <!-- ================= COACH PAGE ================= -->
   <section id="page-coach" class="hidden">
     <div class="card" id="coachLogin">
@@ -797,6 +839,29 @@
       </div>
 
       <div class="card">
+        <h2>Training Videos</h2>
+        <p class="muted">Paste a YouTube link and it becomes a playable video on the Training tab.</p>
+        <label for="vidTitle">Video title</label>
+        <input type="text" id="vidTitle" placeholder="e.g. Quick Release Wrist Shot Drill">
+        <label for="vidCat">Skill category</label>
+        <select id="vidCat">
+          <option value="shots">🥅 Shooting</option>
+          <option value="stick">🏒 Stickhandling</option>
+          <option value="passes">🎯 Passing</option>
+          <option value="saves">🧤 Goalie Saves</option>
+          <option value="general">⭐ General / Warm-up</option>
+        </select>
+        <label for="vidUrl">YouTube link</label>
+        <input type="url" id="vidUrl" placeholder="https://www.youtube.com/watch?v=...">
+        <button class="btn blue" onclick="addVideo()">Add Video</button>
+      </div>
+
+      <div class="card">
+        <h2>Manage Videos</h2>
+        <ul class="adminlist" id="adminVideos"></ul>
+      </div>
+
+      <div class="card">
         <h2>Recent Entries</h2>
         <p class="muted">Delete a mistake here — totals update right away.</p>
         <ul class="adminlist" id="adminLogs"></ul>
@@ -807,9 +872,10 @@
 
 <nav>
   <button id="nav-team" class="active" onclick="showPage(&#39;team&#39;)"><span class="ic">🏟️</span>Team</button>
-  <button id="nav-log" onclick="showPage(&#39;log&#39;)"><span class="ic">✏️</span>Log Practice</button>
-  <button id="nav-progress" onclick="showPage(&#39;progress&#39;)"><span class="ic">🏒</span>My Progress</button>
-  <button id="nav-coach" onclick="showPage(&#39;coach&#39;)"><span class="ic">📋</span>Coach Zone</button>
+  <button id="nav-log" onclick="showPage(&#39;log&#39;)"><span class="ic">✏️</span>Log</button>
+  <button id="nav-progress" onclick="showPage(&#39;progress&#39;)"><span class="ic">🏒</span>Progress</button>
+  <button id="nav-training" onclick="showPage(&#39;training&#39;)"><span class="ic">🎬</span>Training</button>
+  <button id="nav-coach" onclick="showPage(&#39;coach&#39;)"><span class="ic">📋</span>Coach</button>
 </nav>
 
 <div id="toast"></div>
@@ -865,9 +931,16 @@ const DEFAULT_GOALS = { goal_shots: 10000, goal_stick: 3000, goal_passes: 10000,
 
 /* ================= STATE ================= */
 let players = [];   // {id,name,jersey_number,role}
-let logs = [];      // {id,player_id,log_date,shots,stickhandling_minutes,passes,created_at}
+let logs = [];      // {id,player_id,log_date,shots,stickhandling_minutes,passes,saves,created_at}
+let videos = [];    // {id,title,category,url,created_at}
 let goals = {...DEFAULT_GOALS};
 let coachUnlocked = false;
+let vidFilter = "all";
+
+const VID_CATS = {
+  shots:"🥅 Shooting", stick:"🏒 Stickhandling", passes:"🎯 Passing",
+  saves:"🧤 Goalie Saves", general:"⭐ General"
+};
 
 /* ================= SUPABASE REST ================= */
 const HEADERS = () => ({
@@ -892,12 +965,13 @@ async function sb(path, opts = {}) {
 
 async function loadAll(showErrors = true) {
   try {
-    const [p, l, s] = await Promise.all([
+    const [p, l, s, v] = await Promise.all([
       sb("players?select=*&order=jersey_number.asc.nullslast,name.asc"),
       sb("practice_logs?select=*&order=created_at.desc&limit=1000"),
-      sb("team_settings?select=*")
+      sb("team_settings?select=*"),
+      sb("training_videos?select=*&order=created_at.desc").catch(() => [])
     ]);
-    players = p; logs = l;
+    players = p; logs = l; videos = v || [];
     goals = {...DEFAULT_GOALS};
     (s || []).forEach(row => { goals[row.key] = parseInt(row.value, 10) || 0; });
     document.getElementById("setupWarn").classList.add("hidden");
@@ -1063,6 +1137,77 @@ function jumpToProgress(pid) {
   renderProgress();
 }
 
+/* ================= RENDER: training page ================= */
+function ytId(url) {
+  const m = String(url).match(/(?:youtube\.com\/(?:watch\?.*v=|shorts\/|embed\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+  return m ? m[1] : null;
+}
+function setVidFilter(f) {
+  vidFilter = f;
+  renderTraining();
+}
+function renderTraining() {
+  const filt = document.getElementById("vidFilters");
+  const cats = { all: "All", ...VID_CATS };
+  filt.innerHTML = Object.entries(cats).map(([k, lbl]) =>
+    `<button class="chip ${vidFilter === k ? "active" : ""}" onclick="setVidFilter('${k}')">${lbl}</button>`).join("");
+
+  const list = document.getElementById("videoList");
+  const shown = videos.filter(v => vidFilter === "all" || v.category === vidFilter);
+  if (!shown.length) {
+    list.innerHTML = `<div class="card"><p class="muted">${videos.length
+      ? "No videos in this category yet."
+      : "No training videos yet — coaches can add YouTube links in the Coach tab."}</p></div>`;
+    return;
+  }
+  list.innerHTML = shown.map(v => {
+    const id = ytId(v.url);
+    const player = id
+      ? `<div class="frame"><iframe src="https://www.youtube-nocookie.com/embed/${id}" title="${esc(v.title)}"
+           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+           allowfullscreen loading="lazy"></iframe></div>`
+      : `<a class="ext" href="${esc(v.url)}" target="_blank" rel="noopener">▶ Watch video (opens in new tab)</a>`;
+    return `<div class="card vidcard">${player}
+      <div class="meta">
+        <div class="vt">${esc(v.title)}</div>
+        <span class="cattag">${VID_CATS[v.category] || "⭐ General"}</span>
+      </div></div>`;
+  }).join("");
+}
+
+async function addVideo() {
+  const title = document.getElementById("vidTitle").value.trim();
+  const category = document.getElementById("vidCat").value;
+  const url = document.getElementById("vidUrl").value.trim();
+  if (!title) return toast("Give the video a title!");
+  if (!url || !/^https?:\/\//i.test(url)) return toast("Paste a full video link (starts with https://)");
+  try {
+    await sb("training_videos", {
+      method: "POST",
+      headers: { "Prefer": "return=representation" },
+      body: { title, category, url }
+    });
+    document.getElementById("vidTitle").value = "";
+    document.getElementById("vidUrl").value = "";
+    toast("Video added!", true);
+    await loadAll(false);
+  } catch (e) {
+    console.error(e);
+    toast(String(e).includes("PGRST205")
+      ? "Run the training_videos SQL setup first!"
+      : "Couldn't add — try again.");
+  }
+}
+
+async function deleteVideo(id) {
+  if (!confirm("Remove this video?")) return;
+  try {
+    await sb("training_videos?id=eq." + id, { method: "DELETE" });
+    toast("Video removed.");
+    await loadAll(false);
+  } catch (e) { console.error(e); toast("Couldn't remove — try again."); }
+}
+
 /* ================= RENDER: coach page ================= */
 function renderCoach() {
   if (!coachUnlocked) return;
@@ -1077,6 +1222,12 @@ function renderCoach() {
   document.getElementById("goalStick").value = goals.goal_stick;
   document.getElementById("goalPasses").value = goals.goal_passes;
   document.getElementById("goalSaves").value = goals.goal_saves;
+
+  document.getElementById("adminVideos").innerHTML = videos.map(v => `
+    <li><span>🎬</span>
+        <span>${esc(v.title)} <span class="muted">(${VID_CATS[v.category] || "General"})</span></span>
+        <button onclick="deleteVideo('${v.id}')">Remove</button></li>`).join("")
+    || `<li><span class="muted">No training videos yet.</span></li>`;
 
   const logList = document.getElementById("adminLogs");
   logList.innerHTML = logs.slice(0, 20).map(l => {
@@ -1096,6 +1247,7 @@ function renderAll() {
   renderTeam();
   renderSelects();
   renderProgress();
+  renderTraining();
   renderCoach();
 }
 
@@ -1210,7 +1362,7 @@ async function saveGoals() {
 
 /* ================= NAV + UTILS ================= */
 function showPage(name) {
-  for (const p of ["team", "log", "progress", "coach"]) {
+  for (const p of ["team", "log", "progress", "training", "coach"]) {
     document.getElementById("page-" + p).classList.toggle("hidden", p !== name);
     document.getElementById("nav-" + p).classList.toggle("active", p === name);
   }
