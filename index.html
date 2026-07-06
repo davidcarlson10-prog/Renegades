@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!-- saved from url=(0057)file:///C:/Users/david/Downloads/renegades-tracker_3.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="en">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Newmarket Renegades U8MD2 — Practice Tracker</title>
 <!--
@@ -20,20 +20,20 @@
   Coach Zone password: 1234 (change COACH_PASSWORD below)
   ============================================================
 -->
-<link rel="preconnect" href="https://fonts.googleapis.com/">
-<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
-<link href="./html_files/css2" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ice:#F2F8FC;
-    --ice-line:#C9E2F0;
-    --rink-blue:#1B4F91;
-    --rink-blue-dark:#123B70;
-    --goal-red:#C8102E;
-    --navy:#101E30;
-    --gold:#F4B41A;
+    --ice:#F4F5F7;            /* silver-white ice */
+    --ice-line:#D9DCE2;       /* silver lines */
+    --rink-blue:#1B1C21;      /* renegades black (kept var name) */
+    --rink-blue-dark:#0C0D10; /* deeper black */
+    --goal-red:#C8102E;       /* renegades red */
+    --navy:#17181C;           /* text charcoal */
+    --gold:#F4B41A;           /* U8 MD2 gold */
     --white:#FFFFFF;
-    --shadow:0 4px 14px rgba(16,30,48,.10);
+    --shadow:0 4px 14px rgba(12,13,16,.12);
     --radius:16px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -73,21 +73,22 @@
     border:8px solid rgba(200,16,46,.25);
     border-radius:50%;
   }
-  header .crest{
-    display:inline-block;
-    background:var(--goal-red);
-    background:var(--goal-red);
-    color:#fff;
-    font-family:'Lilita One',cursive;
-    font-size:13px;
-    padding:3px 12px;
-    border-radius:999px;
-    letter-spacing:1.5px;
-    text-transform:uppercase;
-    margin-bottom:8px;
+  header .teamlogo{
+    width:min(190px,48vw);
+    height:auto;
+    display:block;
+    margin:0 auto 4px;
+    position:relative;
+    z-index:1;
+    filter:drop-shadow(0 6px 14px rgba(0,0,0,.5));
   }
   header h1{font-size:clamp(26px,6vw,40px);line-height:1.05;text-transform:uppercase}
-  header p{opacity:.85;font-size:14px;margin-top:6px;font-weight:600}
+  header h1.tagline{
+    font-size:clamp(20px,5vw,28px);
+    color:var(--gold);
+    position:relative;z-index:1;
+  }
+  header p{opacity:.85;font-size:14px;margin-top:6px;font-weight:600;position:relative;z-index:1}
 
   /* ---------- Nav ---------- */
   nav{
@@ -111,7 +112,7 @@
     display:flex;flex-direction:column;align-items:center;gap:3px;
   }
   nav button .ic{font-size:20px;line-height:1}
-  nav button.active{color:var(--rink-blue)}
+  nav button.active{color:var(--goal-red)}
   nav button.active .ic{transform:translateY(-2px)}
   nav button:focus-visible{outline:3px solid var(--gold);outline-offset:-3px;border-radius:8px}
 
@@ -124,7 +125,7 @@
     padding:18px 16px;
     margin-bottom:16px;
   }
-  .card h2{color:var(--rink-blue);font-size:20px;margin-bottom:12px;text-transform:uppercase}
+  .card h2{color:var(--goal-red);font-size:20px;margin-bottom:12px;text-transform:uppercase}
   .card h3{font-size:16px;color:var(--navy);margin-bottom:8px}
   .muted{color:#63788e;font-size:13px;font-weight:600}
 
@@ -132,7 +133,7 @@
   .rink{
     position:relative;
     height:38px;
-    background:linear-gradient(180deg,#FDFEFF,#EAF4FB);
+    background:linear-gradient(180deg,#FDFDFE,#EDEFF2);
     border:2px solid var(--ice-line);
     border-radius:999px;
     overflow:hidden;
@@ -148,7 +149,7 @@
   }
   .rink .fill{
     position:absolute;left:0;top:0;bottom:0;
-    background:linear-gradient(90deg,rgba(27,79,145,.16),rgba(27,79,145,.30));
+    background:linear-gradient(90deg,rgba(200,16,46,.14),rgba(200,16,46,.30));
     border-radius:999px;
     transition:width .8s cubic-bezier(.22,1,.36,1);
   }
@@ -168,13 +169,13 @@
   /* ---------- Stat chips ---------- */
   .statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:6px}
   .stat{
-    background:linear-gradient(180deg,#FDFEFF,#F0F7FC);
+    background:linear-gradient(180deg,#FDFDFE,#F0F1F4);
     border:2px solid var(--ice-line);
     border-radius:14px;
     text-align:center;
     padding:10px 4px;
   }
-  .stat .num{font-family:'Lilita One',cursive;font-size:24px;color:var(--rink-blue)}
+  .stat .num{font-family:'Lilita One',cursive;font-size:24px;color:var(--goal-red)}
   .stat .lbl{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:#63788e}
 
   /* ---------- Roster ---------- */
@@ -353,13 +354,15 @@
 <body>
 
 <header>
-  <span class="crest">Home of the Renegades</span>
-  <h1>Newmarket Renegades<br>U8MD2</h1>
-  <p>Practice Tracker • Shots • Stickhandling • Passing</p>
+  <img src="logo.png" alt="Newmarket Renegades U8MD2" class="teamlogo"
+       onerror="this.style.display='none';document.getElementById('fallbackTitle').style.display='block'">
+  <h1 id="fallbackTitle" style="display:none">Newmarket Renegades<br>U8MD2</h1>
+  <h1 class="tagline">Practice Tracker</h1>
+  <p>Shots &bull; Stickhandling &bull; Passing</p>
 </header>
 
 <main>
-  <div id="setupWarn" class="setup-warn">⚠️ <b>Couldn't reach the scoreboard.</b> Check your internet connection — retrying automatically.</div>
+  <div id="setupWarn" class="setup-warn hidden"></div>
 
   <!-- ================= TEAM PAGE ================= -->
   <section id="page-team">
@@ -485,26 +488,26 @@
 </main>
 
 <nav>
-  <button id="nav-team" class="active" onclick="showPage(&#39;team&#39;)"><span class="ic">🏟️</span>Team</button>
-  <button id="nav-log" onclick="showPage(&#39;log&#39;)"><span class="ic">✏️</span>Log Practice</button>
-  <button id="nav-progress" onclick="showPage(&#39;progress&#39;)"><span class="ic">🏒</span>My Progress</button>
-  <button id="nav-coach" onclick="showPage(&#39;coach&#39;)"><span class="ic">📋</span>Coach Zone</button>
+  <button id="nav-team" class="active" onclick="showPage('team')"><span class="ic">🏟️</span>Team</button>
+  <button id="nav-log" onclick="showPage('log')"><span class="ic">✏️</span>Log Practice</button>
+  <button id="nav-progress" onclick="showPage('progress')"><span class="ic">🏒</span>My Progress</button>
+  <button id="nav-coach" onclick="showPage('coach')"><span class="ic">📋</span>Coach Zone</button>
 </nav>
 
 <div id="toast"></div>
 
-<div id="goalhorn" onclick="this.classList.remove(&#39;show&#39;)">
+<div id="goalhorn" onclick="this.classList.remove('show')">
   <div class="inner">
     <div class="lamp">🚨</div>
     <h2>New Badge!</h2>
     <p id="hornText" style="font-weight:800;font-size:16px"></p>
-    <button class="btn" style="margin-top:18px" onclick="document.getElementById(&#39;goalhorn&#39;).classList.remove(&#39;show&#39;)">Let's Go!</button>
+    <button class="btn" style="margin-top:18px" onclick="document.getElementById('goalhorn').classList.remove('show')">Let's Go!</button>
   </div>
 </div>
 
 <script>
 /* ================= CONFIG ================= */
-const SUPABASE_URL = "https://dhfkwkkafsdrrleotmgm.supabase.co"; // your Supabase project
+const SUPABASE_URL = "https://dhfkwkkafsdrrleotmgm.supabase.co"; // your Supabase project (no /rest/v1/ on the end!)
 const SUPABASE_KEY = "sb_publishable_Q0vAhUiN0doorbxXvdnTiA_XGpH6uTJ";
 const COACH_PASSWORD = "1234";
 const POLL_MS = 15000;
@@ -905,7 +908,5 @@ document.getElementById("logDate").value = todayISO();
 loadAll();
 setInterval(() => loadAll(false), POLL_MS);
 </script>
-
-
-  
-</body></html>
+</body>
+</html>
