@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<!-- saved from url=(0057)file:///C:/Users/david/Downloads/renegades-tracker_3.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Newmarket Renegades U8MD2 — Practice Tracker</title>
+<!--
+  ============================================================
+  NEWMARKET RENEGADES U8MD2 — PRACTICE TRACKER
+  ============================================================
+  SETUP:
+  1. Paste your Supabase URL + publishable (anon) key below
+     (same ones as your World Cup pool file).
+  2. Run the SQL setup script in the Supabase SQL editor
+     (provided alongside this file) to create:
+       - players
+       - practice_logs
+       - team_settings
+  3. Upload this file to GitHub Pages as e.g. renegades/index.html
+  Coach Zone password: 1234 (change COACH_PASSWORD below)
+  ============================================================
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="./html_files/css2" rel="stylesheet">
+<style>
+  :root{
+    --ice:#F2F8FC;
+    --ice-line:#C9E2F0;
+    --rink-blue:#1B4F91;
+    --rink-blue-dark:#123B70;
+    --goal-red:#C8102E;
+    --navy:#101E30;
+    --gold:#F4B41A;
+    --white:#FFFFFF;
+    --shadow:0 4px 14px rgba(16,30,48,.10);
+    --radius:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    font-family:'Nunito',sans-serif;
+    background:var(--ice);
+    color:var(--navy);
+    min-height:100vh;
+    padding-bottom:90px;
+  }
+  h1,h2,h3,.display{font-family:'Lilita One',cursive;font-weight:400;letter-spacing:.5px}
+
+  /* ---------- Header ---------- */
+  header{
+    background:var(--rink-blue);
+    background:linear-gradient(160deg,var(--rink-blue) 0%,var(--rink-blue-dark) 100%);
+    color:var(--white);
+    padding:22px 16px 18px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  header::after{ /* faceoff circle motif */
+    content:"";
+    position:absolute;
+    right:-70px;top:-70px;
+    width:200px;height:200px;
+    border:10px solid rgba(255,255,255,.08);
+    border-radius:50%;
+  }
+  header::before{
+    content:"";
+    position:absolute;
+    left:-50px;bottom:-90px;
+    width:160px;height:160px;
+    border:8px solid rgba(200,16,46,.25);
+    border-radius:50%;
+  }
+  header .crest{
+    display:inline-block;
+    background:var(--goal-red);
+    background:var(--goal-red);
+    color:#fff;
+    font-family:'Lilita One',cursive;
+    font-size:13px;
+    padding:3px 12px;
+    border-radius:999px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  header h1{font-size:clamp(26px,6vw,40px);line-height:1.05;text-transform:uppercase}
+  header p{opacity:.85;font-size:14px;margin-top:6px;font-weight:600}
+
+  /* ---------- Nav ---------- */
+  nav{
+    position:fixed;
+    bottom:0;left:0;right:0;
+    background:var(--white);
+    border-top:2px solid var(--ice-line);
+    display:flex;
+    z-index:50;
+    box-shadow:0 -4px 16px rgba(16,30,48,.08);
+  }
+  nav button{
+    flex:1;
+    background:none;border:none;
+    padding:10px 4px 12px;
+    font-family:'Nunito',sans-serif;
+    font-weight:800;
+    font-size:11.5px;
+    color:#7d90a5;
+    cursor:pointer;
+    display:flex;flex-direction:column;align-items:center;gap:3px;
+  }
+  nav button .ic{font-size:20px;line-height:1}
+  nav button.active{color:var(--rink-blue)}
+  nav button.active .ic{transform:translateY(-2px)}
+  nav button:focus-visible{outline:3px solid var(--gold);outline-offset:-3px;border-radius:8px}
+
+  main{max-width:760px;margin:0 auto;padding:18px 14px}
+
+  .card{
+    background:var(--white);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:18px 16px;
+    margin-bottom:16px;
+  }
+  .card h2{color:var(--rink-blue);font-size:20px;margin-bottom:12px;text-transform:uppercase}
+  .card h3{font-size:16px;color:var(--navy);margin-bottom:8px}
+  .muted{color:#63788e;font-size:13px;font-weight:600}
+
+  /* ---------- Rink progress bar (signature element) ---------- */
+  .rink{
+    position:relative;
+    height:38px;
+    background:linear-gradient(180deg,#FDFEFF,#EAF4FB);
+    border:2px solid var(--ice-line);
+    border-radius:999px;
+    overflow:hidden;
+    margin:8px 0 4px;
+  }
+  .rink .line{position:absolute;top:0;bottom:0;width:3px}
+  .rink .line.blue1{left:33.33%;background:var(--rink-blue);opacity:.35}
+  .rink .line.blue2{left:66.66%;background:var(--rink-blue);opacity:.35}
+  .rink .line.red{left:50%;background:var(--goal-red);opacity:.4}
+  .rink .goal{
+    position:absolute;right:8px;top:50%;transform:translateY(-50%);
+    font-size:18px;
+  }
+  .rink .fill{
+    position:absolute;left:0;top:0;bottom:0;
+    background:linear-gradient(90deg,rgba(27,79,145,.16),rgba(27,79,145,.30));
+    border-radius:999px;
+    transition:width .8s cubic-bezier(.22,1,.36,1);
+  }
+  .rink .puck{
+    position:absolute;top:50%;
+    width:22px;height:22px;
+    transform:translate(-50%,-50%);
+    background:#181818;
+    border-radius:50%;
+    border:3px solid #333;
+    box-shadow:0 2px 5px rgba(0,0,0,.35), inset 0 2px 3px rgba(255,255,255,.25);
+    transition:left .8s cubic-bezier(.22,1,.36,1);
+  }
+  .rink-label{display:flex;justify-content:space-between;font-size:12.5px;font-weight:800;color:#4d6379}
+  .rink-label .big{font-family:'Lilita One',cursive;font-size:15px;color:var(--rink-blue)}
+
+  /* ---------- Stat chips ---------- */
+  .statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:6px}
+  .stat{
+    background:linear-gradient(180deg,#FDFEFF,#F0F7FC);
+    border:2px solid var(--ice-line);
+    border-radius:14px;
+    text-align:center;
+    padding:10px 4px;
+  }
+  .stat .num{font-family:'Lilita One',cursive;font-size:24px;color:var(--rink-blue)}
+  .stat .lbl{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:#63788e}
+
+  /* ---------- Roster ---------- */
+  .roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+  .pcard{
+    background:var(--white);
+    border:2px solid var(--ice-line);
+    border-radius:14px;
+    padding:12px;
+    text-align:center;
+    cursor:pointer;
+    transition:transform .12s, border-color .12s;
+  }
+  .pcard:hover{transform:translateY(-2px);border-color:var(--rink-blue)}
+  .pcard .jersey{
+    width:46px;height:46px;
+    margin:0 auto 6px;
+    background:var(--rink-blue);
+    color:#fff;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Lilita One',cursive;
+    font-size:20px;
+    border:3px solid var(--goal-red);
+  }
+  .pcard .nm{font-weight:800;font-size:14px}
+  .pcard .bdg{font-size:12px;color:#8a6d13;font-weight:800;margin-top:2px}
+  .coachrow{display:flex;flex-wrap:wrap;gap:8px}
+  .coachchip{
+    background:var(--navy);color:#fff;
+    padding:6px 14px;border-radius:999px;
+    font-weight:800;font-size:13px;
+  }
+
+  /* ---------- Badges ---------- */
+  .badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px}
+  .badge{
+    text-align:center;
+    padding:10px 6px;
+    border-radius:14px;
+    border:2px dashed var(--ice-line);
+    color:#9fb2c4;
+  }
+  .badge .puckicon{
+    width:44px;height:44px;margin:0 auto 5px;
+    border-radius:50%;
+    background:#e6edf3;
+    display:flex;align-items:center;justify-content:center;
+    font-size:20px;
+    filter:grayscale(1);opacity:.5;
+  }
+  .badge.earned{
+    border:2px solid var(--gold);
+    background:linear-gradient(180deg,#FFFBEE,#FFF3CF);
+    color:var(--navy);
+  }
+  .badge.earned .puckicon{
+    background:var(--gold);
+    filter:none;opacity:1;
+    box-shadow:0 2px 8px rgba(244,180,26,.5);
+  }
+  .badge .bn{font-size:11.5px;font-weight:800;line-height:1.15}
+  .badge .bt{font-size:10.5px;font-weight:700;opacity:.75}
+
+  /* ---------- Forms ---------- */
+  label{display:block;font-weight:800;font-size:13px;margin:12px 0 4px;color:var(--navy)}
+  input,select{
+    width:100%;
+    padding:12px;
+    border:2px solid var(--ice-line);
+    border-radius:12px;
+    font-family:'Nunito',sans-serif;
+    font-size:16px;
+    font-weight:700;
+    background:#fff;
+    color:var(--navy);
+  }
+  input:focus,select:focus{outline:none;border-color:var(--rink-blue)}
+  .btn{
+    display:inline-block;
+    width:100%;
+    margin-top:16px;
+    background:var(--goal-red);
+    color:#fff;
+    border:none;
+    padding:14px;
+    border-radius:12px;
+    font-family:'Lilita One',cursive;
+    font-size:18px;
+    letter-spacing:.8px;
+    cursor:pointer;
+    text-transform:uppercase;
+    transition:transform .1s;
+  }
+  .btn:hover{transform:scale(1.015)}
+  .btn:active{transform:scale(.98)}
+  .btn.blue{background:var(--rink-blue)}
+  .btn.small{width:auto;padding:8px 16px;font-size:14px;margin-top:0}
+  .btn.ghost{background:#e8eef4;color:var(--navy)}
+  .btn:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+  .num-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+
+  /* ---------- Activity feed ---------- */
+  .feed{list-style:none}
+  .feed li{
+    display:flex;align-items:center;gap:10px;
+    padding:9px 4px;
+    border-bottom:1px solid #eef3f8;
+    font-size:14px;font-weight:600;
+  }
+  .feed li:last-child{border-bottom:none}
+  .feed .dot{font-size:17px}
+  .feed time{margin-left:auto;font-size:11.5px;color:#8ba0b5;font-weight:700;white-space:nowrap}
+
+  /* ---------- Admin ---------- */
+  .adminlist{list-style:none}
+  .adminlist li{
+    display:flex;align-items:center;gap:8px;
+    padding:8px 4px;border-bottom:1px solid #eef3f8;
+    font-weight:700;font-size:14px;
+  }
+  .adminlist li button{
+    margin-left:auto;
+    background:#fbe9ec;color:var(--goal-red);
+    border:none;border-radius:8px;
+    padding:5px 10px;font-weight:800;cursor:pointer;font-size:12px;
+  }
+  .row2{display:grid;grid-template-columns:2fr 1fr;gap:10px}
+  .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+
+  /* ---------- Toast + celebration ---------- */
+  #toast{
+    position:fixed;left:50%;bottom:100px;transform:translateX(-50%) translateY(20px);
+    background:var(--navy);color:#fff;
+    padding:12px 20px;border-radius:12px;
+    font-weight:800;font-size:14px;
+    opacity:0;pointer-events:none;
+    transition:opacity .3s, transform .3s;
+    z-index:100;max-width:90vw;text-align:center;
+  }
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  #toast.gold{background:var(--gold);color:var(--navy)}
+  #goalhorn{
+    position:fixed;inset:0;
+    background:rgba(16,30,48,.55);
+    display:none;align-items:center;justify-content:center;
+    z-index:99;padding:20px;
+  }
+  #goalhorn.show{display:flex}
+  #goalhorn .inner{
+    background:#fff;border-radius:22px;
+    text-align:center;padding:30px 24px;
+    max-width:340px;width:100%;
+    border:4px solid var(--gold);
+    animation:pop .35s cubic-bezier(.22,1.4,.36,1);
+  }
+  @keyframes pop{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+  #goalhorn .lamp{font-size:52px;animation:flash 0.6s infinite alternate}
+  @keyframes flash{from{filter:brightness(1)}to{filter:brightness(1.6) drop-shadow(0 0 12px rgba(200,16,46,.8))}}
+  #goalhorn h2{color:var(--goal-red);font-size:26px;margin:8px 0 4px;text-transform:uppercase}
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none!important;animation:none!important}
+  }
+
+  .hidden{display:none!important}
+  .setup-warn{
+    background:#FFF3CF;border:2px solid var(--gold);
+    border-radius:12px;padding:12px;font-size:13.5px;font-weight:700;
+    margin-bottom:14px;line-height:1.45;
+  }
+  .setup-warn code{background:#fff;padding:1px 5px;border-radius:5px;font-size:12px}
+  .center{text-align:center}
+  .spacer{height:6px}
+</style>
+</head>
+<body>
+
+<header>
+  <span class="crest">Home of the Renegades</span>
+  <h1>Newmarket Renegades<br>U8MD2</h1>
+  <p>Practice Tracker • Shots • Stickhandling • Passing</p>
+</header>
+
+<main>
+  <div id="setupWarn" class="setup-warn">⚠️ <b>Couldn't reach the scoreboard.</b> Check your internet connection — retrying automatically.</div>
+
+  <!-- ================= TEAM PAGE ================= -->
+  <section id="page-team">
+    <div class="card">
+      <h2>Team Goals</h2>
+      <p class="muted">Every rep from every Renegade counts toward these. Go team!</p>
+      <div class="spacer"></div>
+      <div id="teamGoals"></div>
+    </div>
+
+    <div class="card">
+      <h2>Roster</h2>
+      <div class="roster" id="rosterGrid"></div>
+      <div class="spacer"></div>
+      <h3 style="margin-top:12px">Coaches</h3>
+      <div class="coachrow" id="coachRow"></div>
+    </div>
+
+    <div class="card">
+      <h2>Latest Buzz</h2>
+      <ul class="feed" id="feed"></ul>
+    </div>
+  </section>
+
+  <!-- ================= LOG PAGE ================= -->
+  <section id="page-log" class="hidden">
+    <div class="card">
+      <h2>Log Your Practice</h2>
+      <p class="muted">Practiced at home or at the rink? Awesome — put it on the board!</p>
+      <label for="logPlayer">Who practiced?</label>
+      <select id="logPlayer"></select>
+      <label for="logDate">Practice date</label>
+      <input type="date" id="logDate">
+      <div class="num-row" style="margin-top:12px">
+        <div>
+          <label for="logShots">🥅 Shots</label>
+          <input type="number" id="logShots" min="0" inputmode="numeric" placeholder="0">
+        </div>
+        <div>
+          <label for="logStick">🏒 Stick (min)</label>
+          <input type="number" id="logStick" min="0" inputmode="numeric" placeholder="0">
+        </div>
+        <div>
+          <label for="logPasses">🎯 Passes</label>
+          <input type="number" id="logPasses" min="0" inputmode="numeric" placeholder="0">
+        </div>
+      </div>
+      <button class="btn" id="logBtn" onclick="submitLog()">Put It On The Board</button>
+    </div>
+  </section>
+
+  <!-- ================= PROGRESS PAGE ================= -->
+  <section id="page-progress" class="hidden">
+    <div class="card">
+      <h2>My Progress</h2>
+      <label for="progPlayer">Pick your player</label>
+      <select id="progPlayer" onchange="renderProgress()"></select>
+    </div>
+    <div id="progressBody"></div>
+  </section>
+
+  <!-- ================= COACH PAGE ================= -->
+  <section id="page-coach" class="hidden">
+    <div class="card" id="coachLogin">
+      <h2>Coach Zone</h2>
+      <label for="coachPw">Coach password</label>
+      <input type="password" id="coachPw" placeholder="Enter password">
+      <button class="btn blue" onclick="coachLogin()">Unlock</button>
+    </div>
+
+    <div id="coachPanel" class="hidden">
+      <div class="card">
+        <h2>Add Player / Coach</h2>
+        <div class="row2">
+          <div>
+            <label for="newName">Name</label>
+            <input type="text" id="newName" placeholder="e.g. Emma T.">
+          </div>
+          <div>
+            <label for="newJersey">Jersey #</label>
+            <input type="number" id="newJersey" min="0" inputmode="numeric" placeholder="#">
+          </div>
+        </div>
+        <label for="newRole">Role</label>
+        <select id="newRole">
+          <option value="player">Player</option>
+          <option value="coach">Coach</option>
+        </select>
+        <button class="btn blue" onclick="addPerson()">Add to Team</button>
+      </div>
+
+      <div class="card">
+        <h2>Team Roster</h2>
+        <ul class="adminlist" id="adminRoster"></ul>
+      </div>
+
+      <div class="card">
+        <h2>Season Team Goals</h2>
+        <div class="row3">
+          <div>
+            <label for="goalShots">Shots</label>
+            <input type="number" id="goalShots" min="0" inputmode="numeric">
+          </div>
+          <div>
+            <label for="goalStick">Stick min</label>
+            <input type="number" id="goalStick" min="0" inputmode="numeric">
+          </div>
+          <div>
+            <label for="goalPasses">Passes</label>
+            <input type="number" id="goalPasses" min="0" inputmode="numeric">
+          </div>
+        </div>
+        <button class="btn blue" onclick="saveGoals()">Save Goals</button>
+      </div>
+
+      <div class="card">
+        <h2>Recent Entries</h2>
+        <p class="muted">Delete a mistake here — totals update right away.</p>
+        <ul class="adminlist" id="adminLogs"></ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<nav>
+  <button id="nav-team" class="active" onclick="showPage(&#39;team&#39;)"><span class="ic">🏟️</span>Team</button>
+  <button id="nav-log" onclick="showPage(&#39;log&#39;)"><span class="ic">✏️</span>Log Practice</button>
+  <button id="nav-progress" onclick="showPage(&#39;progress&#39;)"><span class="ic">🏒</span>My Progress</button>
+  <button id="nav-coach" onclick="showPage(&#39;coach&#39;)"><span class="ic">📋</span>Coach Zone</button>
+</nav>
+
+<div id="toast"></div>
+
+<div id="goalhorn" onclick="this.classList.remove(&#39;show&#39;)">
+  <div class="inner">
+    <div class="lamp">🚨</div>
+    <h2>New Badge!</h2>
+    <p id="hornText" style="font-weight:800;font-size:16px"></p>
+    <button class="btn" style="margin-top:18px" onclick="document.getElementById(&#39;goalhorn&#39;).classList.remove(&#39;show&#39;)">Let's Go!</button>
+  </div>
+</div>
+
+<script>
+/* ================= CONFIG ================= */
+const SUPABASE_URL = "https://rjfzbqgrpvehudmcvnta.supabase.co"; // your Supabase project
+const SUPABASE_KEY = "sb_publishable_Q0vAhUiN0doorbxXvdnTiA_XGpH6uTJ";
+const COACH_PASSWORD = "1234";
+const POLL_MS = 15000;
+
+/* ================= MILESTONES ================= */
+const TRACKS = {
+  shots: {
+    label:"Shooting", emoji:"🥅", unit:"shots",
+    milestones:[
+      [100,"First Flurry"],[250,"Trigger Ready"],[500,"Sharp Shooter"],
+      [1000,"Sniper"],[2500,"Howitzer"],[5000,"Goal Machine"]
+    ]
+  },
+  stick: {
+    label:"Stickhandling", emoji:"🏒", unit:"minutes",
+    milestones:[
+      [30,"Soft Hands"],[60,"Smooth Moves"],[150,"Dangler"],
+      [300,"Silky Mitts"],[600,"Puck Wizard"],[1000,"Human Highlight"]
+    ]
+  },
+  passes: {
+    label:"Passing", emoji:"🎯", unit:"passes",
+    milestones:[
+      [100,"Tape to Tape"],[250,"Dish Master"],[500,"Playmaker"],
+      [1000,"Vision Pro"],[2500,"Quarterback"],[5000,"Assist Legend"]
+    ]
+  }
+};
+const DEFAULT_GOALS = { goal_shots: 10000, goal_stick: 3000, goal_passes: 10000 };
+
+/* ================= STATE ================= */
+let players = [];   // {id,name,jersey_number,role}
+let logs = [];      // {id,player_id,log_date,shots,stickhandling_minutes,passes,created_at}
+let goals = {...DEFAULT_GOALS};
+let coachUnlocked = false;
+
+/* ================= SUPABASE REST ================= */
+const HEADERS = () => ({
+  "apikey": SUPABASE_KEY,
+  "Authorization": "Bearer " + SUPABASE_KEY,
+  "Content-Type": "application/json"
+});
+
+async function sb(path, opts = {}) {
+  const res = await fetch(SUPABASE_URL + "/rest/v1/" + path, {
+    headers: { ...HEADERS(), ...(opts.headers || {}) },
+    method: opts.method || "GET",
+    body: opts.body ? JSON.stringify(opts.body) : undefined
+  });
+  if (!res.ok) {
+    const txt = await res.text();
+    throw new Error("Supabase " + res.status + ": " + txt);
+  }
+  const text = await res.text();
+  return text ? JSON.parse(text) : null;
+}
+
+async function loadAll(showErrors = true) {
+  try {
+    const [p, l, s] = await Promise.all([
+      sb("players?select=*&order=jersey_number.asc.nullslast,name.asc"),
+      sb("practice_logs?select=*&order=created_at.desc&limit=1000"),
+      sb("team_settings?select=*")
+    ]);
+    players = p; logs = l;
+    goals = {...DEFAULT_GOALS};
+    (s || []).forEach(row => { goals[row.key] = parseInt(row.value, 10) || 0; });
+    document.getElementById("setupWarn").classList.add("hidden");
+    renderAll();
+  } catch (e) {
+    console.error(e);
+    if (!showErrors) return;
+    const warn = document.getElementById("setupWarn");
+    warn.classList.remove("hidden");
+    if (String(e).includes("PGRST205") || String(e).includes("relation")) {
+      warn.innerHTML = "⚠️ <b>Tables not found.</b> Run the setup SQL script in your Supabase SQL Editor to create <code>players</code>, <code>practice_logs</code>, and <code>team_settings</code>, then refresh.";
+    } else if (SUPABASE_KEY.startsWith("PASTE")) {
+      warn.innerHTML = "⚠️ <b>Almost there!</b> Open this file and paste your Supabase publishable key into <code>SUPABASE_KEY</code> (same key as your World Cup pool site), then re-upload.";
+    } else {
+      warn.innerHTML = "⚠️ <b>Couldn't reach the scoreboard.</b> Check your internet connection — retrying automatically.";
+    }
+  }
+}
+
+/* ================= AGGREGATION ================= */
+function totalsFor(playerId) {
+  const t = { shots:0, stick:0, passes:0 };
+  for (const l of logs) {
+    if (playerId && l.player_id !== playerId) continue;
+    t.shots  += l.shots || 0;
+    t.stick  += l.stickhandling_minutes || 0;
+    t.passes += l.passes || 0;
+  }
+  return t;
+}
+function badgeCount(playerId) {
+  const t = totalsFor(playerId);
+  let n = 0;
+  for (const [key, track] of Object.entries(TRACKS))
+    for (const [threshold] of track.milestones)
+      if (t[key] >= threshold) n++;
+  return n;
+}
+function earnedBadges(t) {
+  const out = [];
+  for (const [key, track] of Object.entries(TRACKS))
+    for (const [threshold, name] of track.milestones)
+      if (t[key] >= threshold) out.push(key + ":" + threshold + ":" + name);
+  return out;
+}
+
+/* ================= RENDER: shared rink bar ================= */
+function rinkBar(current, target, leftLabel, rightLabel) {
+  const pct = target > 0 ? Math.min(100, (current / target) * 100) : 0;
+  // keep puck inside the bar visually
+  const puckPos = Math.max(3, Math.min(96, pct));
+  return `
+    <div class="rink" role="progressbar" aria-valuenow="${current}" aria-valuemin="0" aria-valuemax="${target}" aria-label="${leftLabel}">
+      <div class="fill" style="width:${pct}%"></div>
+      <div class="line blue1"></div><div class="line red"></div><div class="line blue2"></div>
+      <div class="goal">🥅</div>
+      <div class="puck" style="left:${puckPos}%"></div>
+    </div>
+    <div class="rink-label"><span class="big">${leftLabel}</span><span>${rightLabel}</span></div>`;
+}
+
+/* ================= RENDER: team page ================= */
+function renderTeam() {
+  const t = totalsFor(null);
+  const goalsEl = document.getElementById("teamGoals");
+  goalsEl.innerHTML = `
+    <div style="margin-bottom:16px">${rinkBar(t.shots, goals.goal_shots, "🥅 " + t.shots.toLocaleString() + " shots", "goal: " + goals.goal_shots.toLocaleString())}</div>
+    <div style="margin-bottom:16px">${rinkBar(t.stick, goals.goal_stick, "🏒 " + t.stick.toLocaleString() + " min", "goal: " + goals.goal_stick.toLocaleString())}</div>
+    <div>${rinkBar(t.passes, goals.goal_passes, "🎯 " + t.passes.toLocaleString() + " passes", "goal: " + goals.goal_passes.toLocaleString())}</div>`;
+
+  const roster = players.filter(p => p.role === "player");
+  const coaches = players.filter(p => p.role === "coach");
+  document.getElementById("rosterGrid").innerHTML = roster.length
+    ? roster.map(p => `
+      <div class="pcard" onclick="jumpToProgress('${p.id}')" role="button" tabindex="0"
+           onkeydown="if(event.key==='Enter')jumpToProgress('${p.id}')">
+        <div class="jersey">${p.jersey_number ?? "?"}</div>
+        <div class="nm">${esc(p.name)}</div>
+        <div class="bdg">🏅 ${badgeCount(p.id)} badge${badgeCount(p.id)===1?"":"s"}</div>
+      </div>`).join("")
+    : `<p class="muted">No players yet — coaches can add the roster in the Coach Zone.</p>`;
+  document.getElementById("coachRow").innerHTML = coaches.length
+    ? coaches.map(c => `<span class="coachchip">📋 ${esc(c.name)}</span>`).join("")
+    : `<p class="muted">No coaches added yet.</p>`;
+
+  const feedEl = document.getElementById("feed");
+  const recent = logs.slice(0, 12);
+  feedEl.innerHTML = recent.length ? recent.map(l => {
+    const p = players.find(x => x.id === l.player_id);
+    const bits = [];
+    if (l.shots) bits.push(l.shots + " shots");
+    if (l.stickhandling_minutes) bits.push(l.stickhandling_minutes + " min stickhandling");
+    if (l.passes) bits.push(l.passes + " passes");
+    return `<li><span class="dot">🔥</span><span><b>${esc(p ? p.name : "Someone")}</b> logged ${bits.join(", ") || "a practice"}</span><time>${fmtDate(l.log_date)}</time></li>`;
+  }).join("") : `<li><span class="dot">🧊</span><span>Fresh ice! Be the first Renegade to log a practice.</span></li>`;
+}
+
+/* ================= RENDER: log + progress selects ================= */
+function renderSelects() {
+  const roster = players.filter(p => p.role === "player");
+  const opts = roster.map(p => `<option value="${p.id}">#${p.jersey_number ?? "?"} ${esc(p.name)}</option>`).join("");
+  const logSel = document.getElementById("logPlayer");
+  const progSel = document.getElementById("progPlayer");
+  const keepLog = logSel.value, keepProg = progSel.value;
+  logSel.innerHTML = opts || `<option value="">No players yet</option>`;
+  progSel.innerHTML = opts || `<option value="">No players yet</option>`;
+  if (keepLog) logSel.value = keepLog;
+  if (keepProg) progSel.value = keepProg;
+}
+
+/* ================= RENDER: progress page ================= */
+function renderProgress() {
+  const pid = document.getElementById("progPlayer").value;
+  const body = document.getElementById("progressBody");
+  if (!pid) { body.innerHTML = ""; return; }
+  const p = players.find(x => x.id === pid);
+  const t = totalsFor(pid);
+
+  let html = `
+    <div class="card">
+      <h2 class="center" style="font-size:24px">#${p.jersey_number ?? "?"} ${esc(p.name)}</h2>
+      <div class="statgrid">
+        <div class="stat"><div class="num">${t.shots.toLocaleString()}</div><div class="lbl">Shots</div></div>
+        <div class="stat"><div class="num">${t.stick.toLocaleString()}</div><div class="lbl">Stick Min</div></div>
+        <div class="stat"><div class="num">${t.passes.toLocaleString()}</div><div class="lbl">Passes</div></div>
+      </div>
+    </div>`;
+
+  for (const [key, track] of Object.entries(TRACKS)) {
+    const cur = t[key];
+    const next = track.milestones.find(([th]) => cur < th);
+    const done = !next;
+    const target = done ? track.milestones[track.milestones.length-1][0] : next[0];
+    const label = done
+      ? track.emoji + " ALL " + track.label.toUpperCase() + " BADGES EARNED!"
+      : track.emoji + " " + cur.toLocaleString() + " / " + target.toLocaleString() + " " + track.unit;
+    const right = done ? "legend status 🏆" : (target - cur).toLocaleString() + " to \u201c" + next[1] + "\u201d";
+    html += `
+      <div class="card">
+        <h3>${track.emoji} ${track.label}</h3>
+        ${rinkBar(cur, target, label, right)}
+        <div class="spacer"></div>
+        <div class="badges">
+          ${track.milestones.map(([th, name]) => `
+            <div class="badge ${cur >= th ? "earned" : ""}">
+              <div class="puckicon">${cur >= th ? "🏅" : "🔒"}</div>
+              <div class="bn">${name}</div>
+              <div class="bt">${th.toLocaleString()} ${track.unit}</div>
+            </div>`).join("")}
+        </div>
+      </div>`;
+  }
+  body.innerHTML = html;
+}
+
+function jumpToProgress(pid) {
+  document.getElementById("progPlayer").value = pid;
+  showPage("progress");
+  renderProgress();
+}
+
+/* ================= RENDER: coach page ================= */
+function renderCoach() {
+  if (!coachUnlocked) return;
+  const list = document.getElementById("adminRoster");
+  list.innerHTML = players.map(p => `
+    <li><span>${p.role === "coach" ? "📋" : "#" + (p.jersey_number ?? "?")}</span>
+        <span>${esc(p.name)}${p.role === "coach" ? " (coach)" : ""}</span>
+        <button onclick="removePerson('${p.id}','${esc(p.name)}')">Remove</button></li>`).join("")
+    || `<li><span class="muted">Nobody on the roster yet.</span></li>`;
+
+  document.getElementById("goalShots").value = goals.goal_shots;
+  document.getElementById("goalStick").value = goals.goal_stick;
+  document.getElementById("goalPasses").value = goals.goal_passes;
+
+  const logList = document.getElementById("adminLogs");
+  logList.innerHTML = logs.slice(0, 20).map(l => {
+    const p = players.find(x => x.id === l.player_id);
+    const bits = [];
+    if (l.shots) bits.push(l.shots + " sh");
+    if (l.stickhandling_minutes) bits.push(l.stickhandling_minutes + " min");
+    if (l.passes) bits.push(l.passes + " ps");
+    return `<li><span>${fmtDate(l.log_date)}</span>
+      <span><b>${esc(p ? p.name : "?")}</b> — ${bits.join(", ") || "empty"}</span>
+      <button onclick="deleteLog('${l.id}')">Delete</button></li>`;
+  }).join("") || `<li><span class="muted">No entries yet.</span></li>`;
+}
+
+function renderAll() {
+  renderTeam();
+  renderSelects();
+  renderProgress();
+  renderCoach();
+}
+
+/* ================= ACTIONS ================= */
+async function submitLog() {
+  const pid = document.getElementById("logPlayer").value;
+  const date = document.getElementById("logDate").value || todayISO();
+  const shots = parseInt(document.getElementById("logShots").value, 10) || 0;
+  const stick = parseInt(document.getElementById("logStick").value, 10) || 0;
+  const passes = parseInt(document.getElementById("logPasses").value, 10) || 0;
+  if (!pid) return toast("Pick a player first!");
+  if (shots + stick + passes === 0) return toast("Enter at least one number!");
+  if (shots > 2000 || stick > 600 || passes > 2000) return toast("Whoa — that number looks too big. Double-check it!");
+
+  const before = earnedBadges(totalsFor(pid));
+  const btn = document.getElementById("logBtn");
+  btn.disabled = true;
+  try {
+    await sb("practice_logs", {
+      method: "POST",
+      headers: { "Prefer": "return=representation" },
+      body: { player_id: pid, log_date: date, shots, stickhandling_minutes: stick, passes }
+    });
+    await loadAll(false);
+    const after = earnedBadges(totalsFor(pid));
+    const newOnes = after.filter(b => !before.includes(b));
+    document.getElementById("logShots").value = "";
+    document.getElementById("logStick").value = "";
+    document.getElementById("logPasses").value = "";
+    if (newOnes.length) {
+      const p = players.find(x => x.id === pid);
+      const names = newOnes.map(b => "\u201c" + b.split(":")[2] + "\u201d").join(" and ");
+      document.getElementById("hornText").textContent = esc(p.name) + " just earned " + names + "!";
+      document.getElementById("goalhorn").classList.add("show");
+    } else {
+      toast("🚨 On the board! Great work!", true);
+    }
+  } catch (e) {
+    console.error(e);
+    toast("Couldn't save — check connection and try again.");
+  }
+  btn.disabled = false;
+}
+
+function coachLogin() {
+  if (document.getElementById("coachPw").value === COACH_PASSWORD) {
+    coachUnlocked = true;
+    document.getElementById("coachLogin").classList.add("hidden");
+    document.getElementById("coachPanel").classList.remove("hidden");
+    renderCoach();
+  } else {
+    toast("Wrong password!");
+  }
+}
+
+async function addPerson() {
+  const name = document.getElementById("newName").value.trim();
+  const jersey = parseInt(document.getElementById("newJersey").value, 10);
+  const role = document.getElementById("newRole").value;
+  if (!name) return toast("Enter a name!");
+  try {
+    await sb("players", {
+      method: "POST",
+      headers: { "Prefer": "return=representation" },
+      body: { name, jersey_number: isNaN(jersey) ? null : jersey, role }
+    });
+    document.getElementById("newName").value = "";
+    document.getElementById("newJersey").value = "";
+    toast("Added " + name + "!", true);
+    await loadAll(false);
+  } catch (e) { console.error(e); toast("Couldn't add — try again."); }
+}
+
+async function removePerson(id, name) {
+  if (!confirm("Remove " + name + " and all of their practice logs?")) return;
+  try {
+    await sb("practice_logs?player_id=eq." + id, { method: "DELETE" });
+    await sb("players?id=eq." + id, { method: "DELETE" });
+    toast("Removed " + name + ".");
+    await loadAll(false);
+  } catch (e) { console.error(e); toast("Couldn't remove — try again."); }
+}
+
+async function deleteLog(id) {
+  if (!confirm("Delete this entry?")) return;
+  try {
+    await sb("practice_logs?id=eq." + id, { method: "DELETE" });
+    toast("Entry deleted.");
+    await loadAll(false);
+  } catch (e) { console.error(e); toast("Couldn't delete — try again."); }
+}
+
+async function saveGoals() {
+  const rows = [
+    { key: "goal_shots",  value: String(parseInt(document.getElementById("goalShots").value, 10)  || 0) },
+    { key: "goal_stick",  value: String(parseInt(document.getElementById("goalStick").value, 10)  || 0) },
+    { key: "goal_passes", value: String(parseInt(document.getElementById("goalPasses").value, 10) || 0) }
+  ];
+  try {
+    await sb("team_settings", {
+      method: "POST",
+      headers: { "Prefer": "resolution=merge-duplicates" },
+      body: rows
+    });
+    toast("Team goals updated!", true);
+    await loadAll(false);
+  } catch (e) { console.error(e); toast("Couldn't save goals — try again."); }
+}
+
+/* ================= NAV + UTILS ================= */
+function showPage(name) {
+  for (const p of ["team", "log", "progress", "coach"]) {
+    document.getElementById("page-" + p).classList.toggle("hidden", p !== name);
+    document.getElementById("nav-" + p).classList.toggle("active", p === name);
+  }
+  window.scrollTo({ top: 0 });
+}
+function toast(msg, gold = false) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.toggle("gold", gold);
+  t.classList.add("show");
+  clearTimeout(t._h);
+  t._h = setTimeout(() => t.classList.remove("show"), 2600);
+}
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
+}
+function todayISO() {
+  const d = new Date();
+  return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
+}
+function fmtDate(iso) {
+  if (!iso) return "";
+  const [y, m, d] = iso.split("-").map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString(undefined, { month: "short", day: "numeric" });
+}
+
+/* ================= INIT ================= */
+document.getElementById("logDate").value = todayISO();
+loadAll();
+setInterval(() => loadAll(false), POLL_MS);
+</script>
+
+
+</body></html>
