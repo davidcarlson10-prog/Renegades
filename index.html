@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!-- saved from url=(0057)file:///C:/Users/david/Downloads/renegades-tracker_7.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="en">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Newmarket Renegades U8MD2 — Practice Tracker</title>
 <!--
@@ -20,9 +20,9 @@
   Coach Zone password: 1234 (change COACH_PASSWORD below)
   ============================================================
 -->
-<link rel="preconnect" href="https://fonts.googleapis.com/">
-<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
-<link href="./Newmarket Renegades U8MD2 — Practice Tracker_files/css2" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --ice:#F4F5F7;            /* silver-white ice */
@@ -386,10 +386,11 @@
 <body>
 
 <header>
-  <img src="logo.png" alt="Newmarket Renegades U8MD2" class="teamlogo" onerror="this.style.display=&#39;none&#39;;document.getElementById(&#39;fallbackTitle&#39;).style.display=&#39;block&#39;" style="display: none;">
-  <h1 id="fallbackTitle" style="display: block;">Newmarket Renegades<br>U8MD2</h1>
+  <img src="logo.png" alt="Newmarket Renegades U8MD2" class="teamlogo"
+       onerror="this.style.display='none';document.getElementById('fallbackTitle').style.display='block'">
+  <h1 id="fallbackTitle" style="display:none">Newmarket Renegades<br>U8MD2</h1>
   <h1 class="tagline">Practice Tracker</h1>
-  <p>Shots • Stickhandling • Passing • Saves</p>
+  <p>Shots &bull; Stickhandling &bull; Passing &bull; Saves</p>
 </header>
 
 <main>
@@ -401,142 +402,20 @@
       <h2>Team Goals</h2>
       <p class="muted">Every rep from every Renegade counts toward these. Go team!</p>
       <div class="spacer"></div>
-      <div id="teamGoals">
-    <div style="margin-bottom:16px">
-    <div class="rink" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10000" aria-label="🥅 0 shots">
-      <div class="fill" style="width:0%"></div>
-      <div class="line blue1"></div><div class="line red"></div><div class="line blue2"></div>
-      <div class="goal">🥅</div>
-      <div class="puck" style="left:3%"></div>
-    </div>
-    <div class="rink-label"><span class="big">🥅 0 shots</span><span>goal: 10,000</span></div></div>
-    <div style="margin-bottom:16px">
-    <div class="rink" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="3000" aria-label="🏒 0 min">
-      <div class="fill" style="width:0%"></div>
-      <div class="line blue1"></div><div class="line red"></div><div class="line blue2"></div>
-      <div class="goal">🥅</div>
-      <div class="puck" style="left:3%"></div>
-    </div>
-    <div class="rink-label"><span class="big">🏒 0 min</span><span>goal: 3,000</span></div></div>
-    <div style="margin-bottom:16px">
-    <div class="rink" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10000" aria-label="🎯 0 passes">
-      <div class="fill" style="width:0%"></div>
-      <div class="line blue1"></div><div class="line red"></div><div class="line blue2"></div>
-      <div class="goal">🥅</div>
-      <div class="puck" style="left:3%"></div>
-    </div>
-    <div class="rink-label"><span class="big">🎯 0 passes</span><span>goal: 10,000</span></div></div>
-    <div>
-    <div class="rink" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="5000" aria-label="🧤 0 saves">
-      <div class="fill" style="width:0%"></div>
-      <div class="line blue1"></div><div class="line red"></div><div class="line blue2"></div>
-      <div class="goal">🥅</div>
-      <div class="puck" style="left:3%"></div>
-    </div>
-    <div class="rink-label"><span class="big">🧤 0 saves</span><span>goal: 5,000</span></div></div></div>
+      <div id="teamGoals"></div>
     </div>
 
     <div class="card">
       <h2>Roster</h2>
-      <div class="roster" id="rosterGrid">
-      <div class="pcard" onclick="jumpToProgress(&#39;56cd0a13-43d8-49ad-a567-2e6ffe8e3b65&#39;)" role="button" tabindex="0" onkeydown="if(event.key===&#39;Enter&#39;)jumpToProgress(&#39;56cd0a13-43d8-49ad-a567-2e6ffe8e3b65&#39;)">
-        <div class="jersey">5</div>
-        <div class="nm">Mason Robles</div>
-        <div class="bdg">🏅 0 badges</div>
-      </div>
-      <div class="pcard" onclick="jumpToProgress(&#39;a148b6eb-d11f-4042-b7f9-fa8f549dc4f3&#39;)" role="button" tabindex="0" onkeydown="if(event.key===&#39;Enter&#39;)jumpToProgress(&#39;a148b6eb-d11f-4042-b7f9-fa8f549dc4f3&#39;)">
-        <div class="jersey">7</div>
-        <div class="nm">Theo Betterton</div>
-        <div class="bdg">🏅 0 badges</div>
-      </div>
-      <div class="pcard" onclick="jumpToProgress(&#39;635ba2c3-441e-44ba-88b3-bce921909e31&#39;)" role="button" tabindex="0" onkeydown="if(event.key===&#39;Enter&#39;)jumpToProgress(&#39;635ba2c3-441e-44ba-88b3-bce921909e31&#39;)">
-        <div class="jersey">10</div>
-        <div class="nm">Joshua Vincent D'Souza</div>
-        <div class="bdg">🏅 0 badges</div>
-      </div>
-      <div class="pcard" onclick="jumpToProgress(&#39;167369d6-29bc-4aa9-b324-1c678143c433&#39;)" role="button" tabindex="0" onkeydown="if(event.key===&#39;Enter&#39;)jumpToProgress(&#39;167369d6-29bc-4aa9-b324-1c678143c433&#39;)">
-        <div class="jersey">13</div>
-        <div class="nm">Bronson Hovius</div>
-        <div class="bdg">🏅 0 badges</div>
-      </div>
-      <div class="pcard" onclick="jumpToProgress(&#39;7607c816-a129-46de-8c7e-5f8cf94c9c54&#39;)" role="button" tabindex="0" onkeydown="if(event.key===&#39;Enter&#39;)jumpToProgress(&#39;7607c816-a129-46de-8c7e-5f8cf94c9c54&#39;)">
-        <div class="jersey">14</div>
-        <div class="nm">Braden Jannaway</div>
-        <div class="bdg">🏅 0 badges</div>
-      </div>
-      <div class="pcard" onclick="jumpToProgress(&#39;5f096eb3-46b8-4854-8221-58d5482f4cd1&#39;)" role="button" tabindex="0" onkeydown="if(event.key===&#39;Enter&#39;)jumpToProgress(&#39;5f096eb3-46b8-4854-8221-58d5482f4cd1&#39;)">
-        <div class="jersey">16</div>
-        <div class="nm">Thomas Buchner</div>
-        <div class="bdg">🏅 0 badges</div>
-      </div>
-      <div class="pcard" onclick="jumpToProgress(&#39;7d88845f-e791-4457-8b13-638ad7c68829&#39;)" role="button" tabindex="0" onkeydown="if(event.key===&#39;Enter&#39;)jumpToProgress(&#39;7d88845f-e791-4457-8b13-638ad7c68829&#39;)">
-        <div class="jersey">17</div>
-        <div class="nm">Arthur Murphy</div>
-        <div class="bdg">🏅 0 badges</div>
-      </div>
-      <div class="pcard" onclick="jumpToProgress(&#39;968861d6-2c5c-415d-bd84-8c2d921c9e9e&#39;)" role="button" tabindex="0" onkeydown="if(event.key===&#39;Enter&#39;)jumpToProgress(&#39;968861d6-2c5c-415d-bd84-8c2d921c9e9e&#39;)">
-        <div class="jersey">22</div>
-        <div class="nm">Clive Campbell</div>
-        <div class="bdg">🏅 0 badges</div>
-      </div>
-      <div class="pcard" onclick="jumpToProgress(&#39;3faf62cc-c040-47e1-8ce8-f88bfec27a92&#39;)" role="button" tabindex="0" onkeydown="if(event.key===&#39;Enter&#39;)jumpToProgress(&#39;3faf62cc-c040-47e1-8ce8-f88bfec27a92&#39;)">
-        <div class="jersey">23</div>
-        <div class="nm">Vance Hartley</div>
-        <div class="bdg">🏅 0 badges</div>
-      </div>
-      <div class="pcard" onclick="jumpToProgress(&#39;7ed16586-7fad-4bde-96f2-485e583f1645&#39;)" role="button" tabindex="0" onkeydown="if(event.key===&#39;Enter&#39;)jumpToProgress(&#39;7ed16586-7fad-4bde-96f2-485e583f1645&#39;)">
-        <div class="jersey">37</div>
-        <div class="nm">Owen Greenhalgh</div>
-        <div class="bdg">🏅 0 badges</div>
-      </div>
-      <div class="pcard" onclick="jumpToProgress(&#39;8d32c5a0-f443-43a8-9853-e3ff5a67d99a&#39;)" role="button" tabindex="0" onkeydown="if(event.key===&#39;Enter&#39;)jumpToProgress(&#39;8d32c5a0-f443-43a8-9853-e3ff5a67d99a&#39;)">
-        <div class="jersey">61</div>
-        <div class="nm">Gianluca Cammalleri</div>
-        <div class="bdg">🏅 0 badges</div>
-      </div>
-      <div class="pcard" onclick="jumpToProgress(&#39;5cba2741-a825-44ff-8998-e4b7ec166cef&#39;)" role="button" tabindex="0" onkeydown="if(event.key===&#39;Enter&#39;)jumpToProgress(&#39;5cba2741-a825-44ff-8998-e4b7ec166cef&#39;)">
-        <div class="jersey">76</div>
-        <div class="nm">James Savoie</div>
-        <div class="bdg">🏅 0 badges</div>
-      </div>
-      <div class="pcard" onclick="jumpToProgress(&#39;a7a768eb-c1b9-449c-b73e-5250f91a552f&#39;)" role="button" tabindex="0" onkeydown="if(event.key===&#39;Enter&#39;)jumpToProgress(&#39;a7a768eb-c1b9-449c-b73e-5250f91a552f&#39;)">
-        <div class="jersey">81</div>
-        <div class="nm">Robert Xu</div>
-        <div class="bdg">🏅 0 badges</div>
-      </div>
-      <div class="pcard" onclick="jumpToProgress(&#39;2d2498f5-f08e-48d2-ba07-dd385f041195&#39;)" role="button" tabindex="0" onkeydown="if(event.key===&#39;Enter&#39;)jumpToProgress(&#39;2d2498f5-f08e-48d2-ba07-dd385f041195&#39;)">
-        <div class="jersey">86</div>
-        <div class="nm">Skyler Wong</div>
-        <div class="bdg">🏅 0 badges</div>
-      </div>
-      <div class="pcard" onclick="jumpToProgress(&#39;35b9fb66-0c29-43eb-af85-74ba630396f1&#39;)" role="button" tabindex="0" onkeydown="if(event.key===&#39;Enter&#39;)jumpToProgress(&#39;35b9fb66-0c29-43eb-af85-74ba630396f1&#39;)">
-        <div class="jersey">93</div>
-        <div class="nm">Jack Policelli</div>
-        <div class="bdg">🏅 0 badges</div>
-      </div>
-      <div class="pcard" onclick="jumpToProgress(&#39;74e3bc6e-00c9-4533-b4ad-48905ffe4aaa&#39;)" role="button" tabindex="0" onkeydown="if(event.key===&#39;Enter&#39;)jumpToProgress(&#39;74e3bc6e-00c9-4533-b4ad-48905ffe4aaa&#39;)">
-        <div class="jersey">94</div>
-        <div class="nm">Massimo Tramonte</div>
-        <div class="bdg">🏅 0 badges</div>
-      </div>
-      <div class="pcard" onclick="jumpToProgress(&#39;97835070-5314-407a-ac53-2418fb370bc1&#39;)" role="button" tabindex="0" onkeydown="if(event.key===&#39;Enter&#39;)jumpToProgress(&#39;97835070-5314-407a-ac53-2418fb370bc1&#39;)">
-        <div class="jersey">96</div>
-        <div class="nm">Jameson Carlson</div>
-        <div class="bdg">🏅 0 badges</div>
-      </div>
-      <div class="pcard" onclick="jumpToProgress(&#39;5ca3f727-a954-49c4-9a6d-c7ffa08c36a1&#39;)" role="button" tabindex="0" onkeydown="if(event.key===&#39;Enter&#39;)jumpToProgress(&#39;5ca3f727-a954-49c4-9a6d-c7ffa08c36a1&#39;)">
-        <div class="jersey">99</div>
-        <div class="nm">Nathan Martinez</div>
-        <div class="bdg">🏅 0 badges</div>
-      </div></div>
+      <div class="roster" id="rosterGrid"></div>
       <div class="spacer"></div>
       <h3 style="margin-top:12px">Coaches</h3>
-      <div class="coachrow" id="coachRow"><p class="muted">No coaches added yet.</p></div>
+      <div class="coachrow" id="coachRow"></div>
     </div>
 
     <div class="card">
       <h2>Latest Buzz</h2>
-      <ul class="feed" id="feed"><li><span class="dot">🧊</span><span>Fresh ice! Be the first Renegade to log a practice.</span></li></ul>
+      <ul class="feed" id="feed"></ul>
     </div>
   </section>
 
@@ -546,7 +425,7 @@
       <h2>Log Your Practice</h2>
       <p class="muted">Practiced at home or at the rink? Awesome — put it on the board!</p>
       <label for="logPlayer">Who practiced?</label>
-      <select id="logPlayer"><option value="56cd0a13-43d8-49ad-a567-2e6ffe8e3b65">#5 Mason Robles</option><option value="a148b6eb-d11f-4042-b7f9-fa8f549dc4f3">#7 Theo Betterton</option><option value="635ba2c3-441e-44ba-88b3-bce921909e31">#10 Joshua Vincent D'Souza</option><option value="167369d6-29bc-4aa9-b324-1c678143c433">#13 Bronson Hovius</option><option value="7607c816-a129-46de-8c7e-5f8cf94c9c54">#14 Braden Jannaway</option><option value="5f096eb3-46b8-4854-8221-58d5482f4cd1">#16 Thomas Buchner</option><option value="7d88845f-e791-4457-8b13-638ad7c68829">#17 Arthur Murphy</option><option value="968861d6-2c5c-415d-bd84-8c2d921c9e9e">#22 Clive Campbell</option><option value="3faf62cc-c040-47e1-8ce8-f88bfec27a92">#23 Vance Hartley</option><option value="7ed16586-7fad-4bde-96f2-485e583f1645">#37 Owen Greenhalgh</option><option value="8d32c5a0-f443-43a8-9853-e3ff5a67d99a">#61 Gianluca Cammalleri</option><option value="5cba2741-a825-44ff-8998-e4b7ec166cef">#76 James Savoie</option><option value="a7a768eb-c1b9-449c-b73e-5250f91a552f">#81 Robert Xu</option><option value="2d2498f5-f08e-48d2-ba07-dd385f041195">#86 Skyler Wong</option><option value="35b9fb66-0c29-43eb-af85-74ba630396f1">#93 Jack Policelli</option><option value="74e3bc6e-00c9-4533-b4ad-48905ffe4aaa">#94 Massimo Tramonte</option><option value="97835070-5314-407a-ac53-2418fb370bc1">#96 Jameson Carlson</option><option value="5ca3f727-a954-49c4-9a6d-c7ffa08c36a1">#99 Nathan Martinez</option></select>
+      <select id="logPlayer"></select>
       <label for="logDate">Practice date</label>
       <input type="date" id="logDate">
       <div class="num-row" style="margin-top:12px">
@@ -576,198 +455,9 @@
     <div class="card">
       <h2>My Progress</h2>
       <label for="progPlayer">Pick your player</label>
-      <select id="progPlayer" onchange="renderProgress()"><option value="56cd0a13-43d8-49ad-a567-2e6ffe8e3b65">#5 Mason Robles</option><option value="a148b6eb-d11f-4042-b7f9-fa8f549dc4f3">#7 Theo Betterton</option><option value="635ba2c3-441e-44ba-88b3-bce921909e31">#10 Joshua Vincent D'Souza</option><option value="167369d6-29bc-4aa9-b324-1c678143c433">#13 Bronson Hovius</option><option value="7607c816-a129-46de-8c7e-5f8cf94c9c54">#14 Braden Jannaway</option><option value="5f096eb3-46b8-4854-8221-58d5482f4cd1">#16 Thomas Buchner</option><option value="7d88845f-e791-4457-8b13-638ad7c68829">#17 Arthur Murphy</option><option value="968861d6-2c5c-415d-bd84-8c2d921c9e9e">#22 Clive Campbell</option><option value="3faf62cc-c040-47e1-8ce8-f88bfec27a92">#23 Vance Hartley</option><option value="7ed16586-7fad-4bde-96f2-485e583f1645">#37 Owen Greenhalgh</option><option value="8d32c5a0-f443-43a8-9853-e3ff5a67d99a">#61 Gianluca Cammalleri</option><option value="5cba2741-a825-44ff-8998-e4b7ec166cef">#76 James Savoie</option><option value="a7a768eb-c1b9-449c-b73e-5250f91a552f">#81 Robert Xu</option><option value="2d2498f5-f08e-48d2-ba07-dd385f041195">#86 Skyler Wong</option><option value="35b9fb66-0c29-43eb-af85-74ba630396f1">#93 Jack Policelli</option><option value="74e3bc6e-00c9-4533-b4ad-48905ffe4aaa">#94 Massimo Tramonte</option><option value="97835070-5314-407a-ac53-2418fb370bc1">#96 Jameson Carlson</option><option value="5ca3f727-a954-49c4-9a6d-c7ffa08c36a1">#99 Nathan Martinez</option></select>
+      <select id="progPlayer" onchange="renderProgress()"></select>
     </div>
-    <div id="progressBody">
-    <div class="card">
-      <h2 class="center" style="font-size:24px">#5 Mason Robles</h2>
-      <div class="statgrid">
-        <div class="stat"><div class="num">0</div><div class="lbl">Shots</div></div>
-        <div class="stat"><div class="num">0</div><div class="lbl">Stick Min</div></div>
-        <div class="stat"><div class="num">0</div><div class="lbl">Passes</div></div>
-        <div class="stat"><div class="num">0</div><div class="lbl">Saves</div></div>
-      </div>
-    </div>
-      <div class="card">
-        <h3>🥅 Shooting</h3>
-        
-    <div class="rink" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="🥅 0 / 100 shots">
-      <div class="fill" style="width:0%"></div>
-      <div class="line blue1"></div><div class="line red"></div><div class="line blue2"></div>
-      <div class="goal">🥅</div>
-      <div class="puck" style="left:3%"></div>
-    </div>
-    <div class="rink-label"><span class="big">🥅 0 / 100 shots</span><span>100 to “First Flurry”</span></div>
-        <div class="spacer"></div>
-        <div class="badges">
-          
-            <div class="badge ">
-              <div class="puckicon">🔒</div>
-              <div class="bn">First Flurry</div>
-              <div class="bt">100 shots</div>
-            </div>
-            <div class="badge ">
-              <div class="puckicon">🔒</div>
-              <div class="bn">Trigger Ready</div>
-              <div class="bt">250 shots</div>
-            </div>
-            <div class="badge ">
-              <div class="puckicon">🔒</div>
-              <div class="bn">Sharp Shooter</div>
-              <div class="bt">500 shots</div>
-            </div>
-            <div class="badge ">
-              <div class="puckicon">🔒</div>
-              <div class="bn">Sniper</div>
-              <div class="bt">1,000 shots</div>
-            </div>
-            <div class="badge ">
-              <div class="puckicon">🔒</div>
-              <div class="bn">Howitzer</div>
-              <div class="bt">2,500 shots</div>
-            </div>
-            <div class="badge ">
-              <div class="puckicon">🔒</div>
-              <div class="bn">Goal Machine</div>
-              <div class="bt">5,000 shots</div>
-            </div>
-        </div>
-      </div>
-      <div class="card">
-        <h3>🏒 Stickhandling</h3>
-        
-    <div class="rink" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="30" aria-label="🏒 0 / 30 minutes">
-      <div class="fill" style="width:0%"></div>
-      <div class="line blue1"></div><div class="line red"></div><div class="line blue2"></div>
-      <div class="goal">🥅</div>
-      <div class="puck" style="left:3%"></div>
-    </div>
-    <div class="rink-label"><span class="big">🏒 0 / 30 minutes</span><span>30 to “Soft Hands”</span></div>
-        <div class="spacer"></div>
-        <div class="badges">
-          
-            <div class="badge ">
-              <div class="puckicon">🔒</div>
-              <div class="bn">Soft Hands</div>
-              <div class="bt">30 minutes</div>
-            </div>
-            <div class="badge ">
-              <div class="puckicon">🔒</div>
-              <div class="bn">Smooth Moves</div>
-              <div class="bt">60 minutes</div>
-            </div>
-            <div class="badge ">
-              <div class="puckicon">🔒</div>
-              <div class="bn">Dangler</div>
-              <div class="bt">150 minutes</div>
-            </div>
-            <div class="badge ">
-              <div class="puckicon">🔒</div>
-              <div class="bn">Silky Mitts</div>
-              <div class="bt">300 minutes</div>
-            </div>
-            <div class="badge ">
-              <div class="puckicon">🔒</div>
-              <div class="bn">Puck Wizard</div>
-              <div class="bt">600 minutes</div>
-            </div>
-            <div class="badge ">
-              <div class="puckicon">🔒</div>
-              <div class="bn">Human Highlight</div>
-              <div class="bt">1,000 minutes</div>
-            </div>
-        </div>
-      </div>
-      <div class="card">
-        <h3>🎯 Passing</h3>
-        
-    <div class="rink" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="🎯 0 / 100 passes">
-      <div class="fill" style="width:0%"></div>
-      <div class="line blue1"></div><div class="line red"></div><div class="line blue2"></div>
-      <div class="goal">🥅</div>
-      <div class="puck" style="left:3%"></div>
-    </div>
-    <div class="rink-label"><span class="big">🎯 0 / 100 passes</span><span>100 to “Tape to Tape”</span></div>
-        <div class="spacer"></div>
-        <div class="badges">
-          
-            <div class="badge ">
-              <div class="puckicon">🔒</div>
-              <div class="bn">Tape to Tape</div>
-              <div class="bt">100 passes</div>
-            </div>
-            <div class="badge ">
-              <div class="puckicon">🔒</div>
-              <div class="bn">Dish Master</div>
-              <div class="bt">250 passes</div>
-            </div>
-            <div class="badge ">
-              <div class="puckicon">🔒</div>
-              <div class="bn">Playmaker</div>
-              <div class="bt">500 passes</div>
-            </div>
-            <div class="badge ">
-              <div class="puckicon">🔒</div>
-              <div class="bn">Vision Pro</div>
-              <div class="bt">1,000 passes</div>
-            </div>
-            <div class="badge ">
-              <div class="puckicon">🔒</div>
-              <div class="bn">Quarterback</div>
-              <div class="bt">2,500 passes</div>
-            </div>
-            <div class="badge ">
-              <div class="puckicon">🔒</div>
-              <div class="bn">Assist Legend</div>
-              <div class="bt">5,000 passes</div>
-            </div>
-        </div>
-      </div>
-      <div class="card">
-        <h3>🧤 Goalie Saves</h3>
-        
-    <div class="rink" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="🧤 0 / 100 saves">
-      <div class="fill" style="width:0%"></div>
-      <div class="line blue1"></div><div class="line red"></div><div class="line blue2"></div>
-      <div class="goal">🥅</div>
-      <div class="puck" style="left:3%"></div>
-    </div>
-    <div class="rink-label"><span class="big">🧤 0 / 100 saves</span><span>100 to “Glove Flash”</span></div>
-        <div class="spacer"></div>
-        <div class="badges">
-          
-            <div class="badge ">
-              <div class="puckicon">🔒</div>
-              <div class="bn">Glove Flash</div>
-              <div class="bt">100 saves</div>
-            </div>
-            <div class="badge ">
-              <div class="puckicon">🔒</div>
-              <div class="bn">Pad Stack</div>
-              <div class="bt">250 saves</div>
-            </div>
-            <div class="badge ">
-              <div class="puckicon">🔒</div>
-              <div class="bn">Brick Wall</div>
-              <div class="bt">500 saves</div>
-            </div>
-            <div class="badge ">
-              <div class="puckicon">🔒</div>
-              <div class="bn">Shutout Machine</div>
-              <div class="bt">1,000 saves</div>
-            </div>
-            <div class="badge ">
-              <div class="puckicon">🔒</div>
-              <div class="bn">The Vault</div>
-              <div class="bt">2,500 saves</div>
-            </div>
-            <div class="badge ">
-              <div class="puckicon">🔒</div>
-              <div class="bn">Save Legend</div>
-              <div class="bt">5,000 saves</div>
-            </div>
-        </div>
-      </div></div>
+    <div id="progressBody"></div>
   </section>
 
   <!-- ================= TRAINING PAGE ================= -->
@@ -775,9 +465,9 @@
     <div class="card">
       <h2>Training Videos</h2>
       <p class="muted">Watch, learn, then go log those reps! Filter by skill:</p>
-      <div class="chiprow" id="vidFilters"><button class="chip active" onclick="setVidFilter(&#39;all&#39;)">All</button><button class="chip " onclick="setVidFilter(&#39;shots&#39;)">🥅 Shooting</button><button class="chip " onclick="setVidFilter(&#39;stick&#39;)">🏒 Stickhandling</button><button class="chip " onclick="setVidFilter(&#39;passes&#39;)">🎯 Passing</button><button class="chip " onclick="setVidFilter(&#39;saves&#39;)">🧤 Goalie Saves</button><button class="chip " onclick="setVidFilter(&#39;general&#39;)">⭐ General</button></div>
+      <div class="chiprow" id="vidFilters"></div>
     </div>
-    <div id="videoList"><div class="card"><p class="muted">No training videos yet — coaches can add YouTube links in the Coach tab.</p></div></div>
+    <div id="videoList"></div>
   </section>
 
   <!-- ================= COACH PAGE ================= -->
@@ -871,21 +561,21 @@
 </main>
 
 <nav>
-  <button id="nav-team" class="active" onclick="showPage(&#39;team&#39;)"><span class="ic">🏟️</span>Team</button>
-  <button id="nav-log" onclick="showPage(&#39;log&#39;)"><span class="ic">✏️</span>Log</button>
-  <button id="nav-progress" onclick="showPage(&#39;progress&#39;)"><span class="ic">🏒</span>Progress</button>
-  <button id="nav-training" onclick="showPage(&#39;training&#39;)"><span class="ic">🎬</span>Training</button>
-  <button id="nav-coach" onclick="showPage(&#39;coach&#39;)"><span class="ic">📋</span>Coach</button>
+  <button id="nav-team" class="active" onclick="showPage('team')"><span class="ic">🏟️</span>Team</button>
+  <button id="nav-log" onclick="showPage('log')"><span class="ic">✏️</span>Log</button>
+  <button id="nav-progress" onclick="showPage('progress')"><span class="ic">🏒</span>Progress</button>
+  <button id="nav-training" onclick="showPage('training')"><span class="ic">🎬</span>Training</button>
+  <button id="nav-coach" onclick="showPage('coach')"><span class="ic">📋</span>Coach</button>
 </nav>
 
 <div id="toast"></div>
 
-<div id="goalhorn" onclick="this.classList.remove(&#39;show&#39;)">
+<div id="goalhorn" onclick="this.classList.remove('show')">
   <div class="inner">
     <div class="lamp">🚨</div>
     <h2>New Badge!</h2>
     <p id="hornText" style="font-weight:800;font-size:16px"></p>
-    <button class="btn" style="margin-top:18px" onclick="document.getElementById(&#39;goalhorn&#39;).classList.remove(&#39;show&#39;)">Let's Go!</button>
+    <button class="btn" style="margin-top:18px" onclick="document.getElementById('goalhorn').classList.remove('show')">Let's Go!</button>
   </div>
 </div>
 
@@ -1394,7 +1084,5 @@ document.getElementById("logDate").value = todayISO();
 loadAll();
 setInterval(() => loadAll(false), POLL_MS);
 </script>
-
-
-  
-</body></html>
+</body>
+</html>
