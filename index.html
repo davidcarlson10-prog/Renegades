@@ -834,9 +834,16 @@ function ytId(url) {
 }
 function setVidFilter(f) {
   vidFilter = f;
+  lastVidSig = "";   // force a redraw when the filter changes
   renderTraining();
 }
+let lastVidSig = "";
 function renderTraining() {
+  // Skip redraw if nothing changed — otherwise the 15s sync would restart playing videos
+  const sig = vidFilter + "|" + videos.map(v => v.id).join(",");
+  if (sig === lastVidSig) return;
+  lastVidSig = sig;
+
   const filt = document.getElementById("vidFilters");
   const cats = { all: "All", ...VID_CATS };
   filt.innerHTML = Object.entries(cats).map(([k, lbl]) =>
